@@ -1,6 +1,7 @@
 # Builtouts implementation plan
 
-Status: selected v0.1.0 scope; publication requires a separate release decision.
+Status: v0.1.0 release preparation; unpublished. Publication requires a separate
+release decision.
 
 ## Purpose
 
@@ -98,7 +99,8 @@ is the stripped text of the first title or `None`.
 
 ### Query grammar
 
-Support tag and universal selectors, `.class`, `#id`, `[attr]`, `[attr=value]`,
+Support ASCII identifiers (`-?[_a-zA-Z][_a-zA-Z0-9-]*`) for tag, ID, class, and
+attribute names, universal selectors, `.class`, `#id`, `[attr]`, `[attr=value]`,
 compound selectors, descendants, direct children (`>`), and comma groups.
 Attribute values may be unquoted identifiers or quoted strings. Tags and
 attribute names are normalized; IDs, classes, and values remain case-sensitive.
@@ -173,6 +175,8 @@ Document collisions and empty-input behavior. Keep the module free of I/O.
 ## Delivery queue
 
 Create GitHub issues and a linked organization Project before implementation.
+The repository is [outside-labs/builtouts](https://github.com/outside-labs/builtouts)
+and the delivery board is [Project 17](https://github.com/orgs/outside-labs/projects/17).
 The issues/Project are the canonical status and dependency queue; this plan
 records architecture and milestone gates. Implement the selected five tasks as
 focused PRs, building dependent work on the preceding local branch. Start CI
@@ -183,11 +187,11 @@ fresh checks after retargeting, and verify final main before cleanup.
 
 | Task | Scope and acceptance | Dependencies |
 | --- | --- | --- |
-| HTML-01 | Read-only tree, traversal, find/text, bounded incremental parser, malformed markup fixtures, minimal three-platform CI | Bootstrap |
-| HTML-02 | Strict selector subset, link/text collectors, callback mode, chunked and limit tests | HTML-01 |
-| CONC-01 | Bounded thread map/iteration, ordered/ready results, exception and shutdown tests | HTML-01 foundation |
-| CONV-01 | Unicode-aware word splitting and deterministic naming transformations, documented edge cases | HTML-01 foundation |
-| REL-01 | Complete docs/examples, metadata/typing/license, artifact and installed-package checks, release workflow and release checklist | All selected features |
+| [HTML-01 #1](https://github.com/outside-labs/builtouts/issues/1) | Read-only tree, traversal, find/text, bounded incremental parser, malformed markup fixtures, minimal three-platform CI | Bootstrap |
+| [HTML-02 #2](https://github.com/outside-labs/builtouts/issues/2) | Strict selector subset, link/text collectors, callback mode, chunked and limit tests | HTML-01 |
+| [CONC-01 #3](https://github.com/outside-labs/builtouts/issues/3) | Bounded thread map/iteration, ordered/ready results, exception and shutdown tests | HTML-01 foundation |
+| [CONV-01 #4](https://github.com/outside-labs/builtouts/issues/4) | Unicode-aware word splitting and deterministic naming transformations, documented edge cases | HTML-01 foundation |
+| [REL-01 #5](https://github.com/outside-labs/builtouts/issues/5) | Complete docs/examples, metadata/typing/license, artifact and installed-package checks, release workflow and release checklist | All selected features |
 
 ### Verification and release gate
 
@@ -197,7 +201,9 @@ fresh checks after retargeting, and verify final main before cleanup.
 3. Build wheel and sdist from the reviewed source. Verify exact archive contents,
    original package bytes, license, metadata/version, Python floor, typing marker,
    empty runtime requirements, and absence of generated CLI entry points.
-4. Rebuild a wheel from the sdist and compare package bytes and metadata. Install
+4. Rebuild a wheel from the sdist and compare package bytes and metadata. Only
+   the build-tool Generator header may vary within the declared backend range;
+   independently verify both RECORDs and all remaining compatibility headers. Install
    wheel and sdist separately into fresh virtual environments, with no runtime
    dependency installation. Run tests and offline examples outside the checkout.
 5. Keep workflow actions pinned to reviewed commit SHAs. Only the publish job has
