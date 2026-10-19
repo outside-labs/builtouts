@@ -1,7 +1,7 @@
 # Builtouts implementation plan
 
-Status: v0.1.0 release preparation; unpublished. Publication requires a separate
-release decision.
+Status: v0.1.0 implementation complete. Publication and immutable verification
+receipts are tracked in [RELEASE-01 #20](https://github.com/outside-labs/builtouts/issues/20).
 
 ## Purpose
 
@@ -28,7 +28,7 @@ gist are exploratory and are not compatibility commitments.
   library identity. Do not add a plugin registry or mandatory common base class.
 - Ship type annotations and `py.typed`, examples, an MIT license, changelog,
   three-platform CI, and isolated distribution verification.
-- Prepare `.github/workflows/release.yaml` for Trusted Publishing with the
+- Ship `.github/workflows/release.yaml` for Trusted Publishing with the
   `pypi` environment. Creating a release tag or publishing is a separate action.
 
 ## Architecture
@@ -213,7 +213,8 @@ fresh checks after retargeting, and verify final main before cleanup.
    must match owner `outside-labs`, repository `builtouts`, workflow
    `release.yaml`, environment `pypi`, and PyPI project `builtouts`.
 7. Before publication, confirm final-main CI, inspect final artifacts, and record
-   the selected source and workflow run in REL-01. Stop at this preparation gate.
+   the selected source and workflow run in REL-01. Publication requires explicit
+   authorization and is tracked separately in RELEASE-01 #20.
 8. After explicit publication authorization: tag the verified commit, observe
    the workflow, create release notes, compare PyPI bytes/hashes with the verified
    workflow artifacts, and run a fresh uncached install from public PyPI.
