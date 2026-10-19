@@ -130,5 +130,16 @@ class Node:
     def text(self) -> str:
         return self.get_text()
 
+    def select(self, selector: str) -> list[Node]:
+        """Select descendants with the documented CSS subset."""
+        from .selectors import select
+        return select(self, selector)
+
+    def select_one(self, selector: str) -> Node | None:
+        """Return the first selected descendant, or None."""
+        from .selectors import select
+        result = select(self, selector, first=True)
+        return result[0] if result else None
+
     def __repr__(self) -> str:
         return f'Node(kind={self.kind!r}, tag={self.tag!r})'
