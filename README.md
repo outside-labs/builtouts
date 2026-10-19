@@ -12,13 +12,13 @@ independently usable and do not modify Python globals.
 | `builtouts.concurrent` | `concurrent.futures` | Bounded thread iteration and collection |
 | `builtouts.conventions` | `str`, `unicodedata` | Explicit Unicode naming transformations |
 
-Version 0.1.0 is in preparation. To try the checkout:
+Install builtouts:
 
 ```sh
-python -m pip install .
+python -m pip install builtouts
 ```
 
-After publication, installation will be `python -m pip install builtouts`.
+For a local development checkout, use `python -m pip install .`.
 
 ## HTML extraction
 
@@ -198,8 +198,8 @@ serialization/mutation, extraction models, additional executors and other
 modules. [GitHub issues](https://github.com/outside-labs/builtouts/issues) and
 the [Project](https://github.com/orgs/outside-labs/projects/17) hold the queue.
 
-`release.yaml` is prepared for PyPI Trusted Publishing through environment
-`pypi`; only a separately authorized `v0.1.0` tag can publish. Before tagging,
+`release.yaml` uses PyPI Trusted Publishing through environment
+`pypi`; only an authorized `v0.1.0` tag on main can publish. Before tagging,
 verify final-main CI and the release checklist in the implementation plan.
 Published versions and release tags must never be replaced. See
 [CHANGELOG.md](CHANGELOG.md). MIT licensed.
