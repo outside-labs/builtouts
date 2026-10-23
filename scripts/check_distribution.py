@@ -26,7 +26,8 @@ PACKAGE_FILES = {
     'builtouts/html/extract.py',
 }
 TEST_FILES = {'test_concurrent.py', 'test_conventions.py', 'test_html_collectors.py',
-              'test_html_queries.py', 'test_html_tree.py', 'test_http.py', 'test_html_extract.py'}
+              'test_html_queries.py', 'test_html_tree.py', 'test_http.py', 'test_html_extract.py',
+              'test_thread_outcomes.py'}
 EXAMPLE_FILES = {'html_extract.py', 'thread_jobs.py', 'naming.py'}
 SOURCE_FILES = ({'README.md', 'LICENSE', 'CHANGELOG.md', 'IMPLEMENTATION_PLAN.md',
                  'scripts/check_distribution.py'}
