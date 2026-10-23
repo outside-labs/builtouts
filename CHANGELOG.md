@@ -8,6 +8,8 @@
   explicit converters and structured errors in ordinary dict/list records.
 - Indexed thread outcomes and synchronous consumer-thread result callbacks,
   preserving existing fail-fast defaults, queue bounds and worker cleanup.
+- MIT synthetic HTML corpus, offline fetch/extract/thread pipeline and bounded
+  diagnostic workloads reporting environment, elapsed time and traced allocations.
 
 ## 0.1.0 — 2026-10-19
 
