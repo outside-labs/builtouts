@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.0 — unreleased
+
+- Explicit HTTP(S) GET client with response byte and redirect bounds, verified
+  TLS, opt-in proxy/origin policies, owned responses and declared-charset decoding.
+
 ## 0.1.0 — 2026-10-19
 
 - Bounded HTML document trees with read-only traversal, attribute filters,

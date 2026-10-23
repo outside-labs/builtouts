@@ -1,6 +1,6 @@
 [project]
 name = "builtouts"
-version = "0.1.0"
+version = "0.2.0"
 description = "Dependency-free interfaces and conventions built on Python's standard library"
 readme = "README.md"
 authors = [

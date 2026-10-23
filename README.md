@@ -19,6 +19,52 @@ python -m pip install builtouts
 ```
 
 For a local development checkout, use `python -m pip install .`.
+The published release is 0.1.0. This checkout develops unreleased 0.2.0;
+sections marked 0.2 require installing the checkout until its release.
+
+## HTTP retrieval (0.2)
+
+```python
+from builtouts.http import Client
+from builtouts.html import Document
+
+response = Client(timeout=10, max_bytes=2_000_000).get('https://example.com/')
+response.raise_for_status()
+document = Document.from_html(response.text)
+```
+
+`Client` performs independent GETs with verified TLS and closes each response
+before returning an immutable `Response(url, status, headers, body)`. It is a
+reusable configuration; each call owns its opener and connection. There are
+no cookies, retries, connection pooling, global opener changes or decompression.
+URLs must be absolute ASCII HTTP(S) URLs without credentials, whitespace or
+controls; callers encode Unicode hosts/paths explicitly. Fragments are removed.
+Local/private addresses are allowed: this is not an SSRF filter.
+
+`timeout=10.0` bounds blocking socket operations, not DNS resolution or total
+wall-clock time. `max_bytes=5_000_000` bounds response body bytes, including
+responses without Content-Length; malformed/conflicting lengths and truncated
+bodies fail explicitly. No-body 204/304 statuses have no representation payload.
+Only identity Content-Encoding is accepted. `ResponseLimitError` rejects excess
+bytes and `ContentEncodingError` rejects compressed content before reading it.
+Standard-library transport, TLS, timeout and framing exceptions propagate.
+
+`max_redirects=5` bounds redirects and cycles fail with `RedirectError`.
+Redirect targets are validated before opening; HTTPS downgrade is forbidden.
+Origin changes require `allow_cross_origin_redirects=True`, which permanently
+drops all caller-supplied headers for the remainder of that request chain.
+Environment proxies are disabled unless `trust_env=True`. Each flag is explicit;
+no browser, session, authentication or network isolation is implied.
+
+`get(url, headers={...})` accepts Latin-1 header values without controls. Framing,
+Host, Connection, Proxy-Authorization and Accept-Encoding headers are reserved;
+case-insensitive duplicates fail before I/O. Header results preserve duplicates:
+`response.header(name)` returns the first value or None, while
+`response.headers_all(name)` returns a tuple. HTTP statuses, including 4xx/5xx,
+are ordinary responses; `raise_for_status()` explicitly raises `HTTPStatusError`
+and retains its response. `text` uses the declared charset or UTF-8 with strict
+decoding. `decode(encoding=None, errors='strict')` allows an explicit override;
+there is no BOM or HTML-meta sniffing.
 
 ## HTML extraction
 
