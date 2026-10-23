@@ -1,4 +1,4 @@
-"""Build and verify the exact v0.1.0 distributions and independent installs."""
+"""Build and verify exact distributions and independent installs."""
 
 import argparse
 import base64
@@ -21,11 +21,11 @@ import zipfile
 
 PACKAGE_FILES = {
     'builtouts/__init__.py', 'builtouts/py.typed', 'builtouts/concurrent.py',
-    'builtouts/conventions.py', 'builtouts/html/__init__.py', 'builtouts/html/nodes.py',
+    'builtouts/conventions.py', 'builtouts/http.py', 'builtouts/html/__init__.py', 'builtouts/html/nodes.py',
     'builtouts/html/parser.py', 'builtouts/html/selectors.py', 'builtouts/html/collectors.py',
 }
 TEST_FILES = {'test_concurrent.py', 'test_conventions.py', 'test_html_collectors.py',
-              'test_html_queries.py', 'test_html_tree.py'}
+              'test_html_queries.py', 'test_html_tree.py', 'test_http.py'}
 EXAMPLE_FILES = {'html_extract.py', 'thread_jobs.py', 'naming.py'}
 SOURCE_FILES = ({'README.md', 'LICENSE', 'CHANGELOG.md', 'IMPLEMENTATION_PLAN.md',
                  'scripts/check_distribution.py'}
@@ -144,8 +144,8 @@ def main() -> None:
     root = Path(__file__).resolve().parents[1]
     config = tomllib.loads((root / 'pyproject.toml').read_text())
     version = config['project']['version']
-    require(version == '0.1.0', 'the selected release is v0.1.0')
-    require(not args.tag or args.tag == f'v{version}', 'release tag differs from selected version')
+    require(not args.tag or (version == '0.1.0' and args.tag == f'v{version}'),
+            'publication is currently authorized only for v0.1.0')
     require(config['project']['dependencies'] == [], 'runtime dependencies must be empty')
     output = args.output_dir.resolve()
     output.mkdir(parents=True, exist_ok=True)

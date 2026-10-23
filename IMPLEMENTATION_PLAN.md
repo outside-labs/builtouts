@@ -3,6 +3,31 @@
 Status: v0.1.0 implementation complete. Publication and immutable verification
 receipts are tracked in [RELEASE-01 #20](https://github.com/outside-labs/builtouts/issues/20).
 
+## Selected post-0.1 batch
+
+The 2026-10-23 continuation selects HTTP-01 #6, HTML-04 #8, CONC-02 #10 and
+QA-02 #14 for unreleased 0.2.0. Each gets a focused PR, starting CI before the
+next task and merging in dependency order. The published 0.1.0 tag/files remain
+immutable. Current-version distributions can be checked in ordinary CI;
+publishing remains authorized only for 0.1.0 until a separate release decision.
+
+HTTP-01 supplies independent HTTP(S) GETs over urllib.request: verified TLS,
+no environment proxies by default, body/redirect bounds, same-origin redirects
+unless opted in, no HTTPS downgrade, and no forwarding caller headers across
+origins. Responses own bytes and retain duplicate headers; strict declared
+charset/UTF-8 decoding is explicit. Socket timeouts are per blocking operation,
+not a DNS or total wall-clock deadline. No retries, cookies, decompression or
+SSRF-safety claim is selected. Verify only synthetic loopback services locally.
+
+HTML-04 selects scoped required/optional fields, exact/many cardinality, string
+conversion callbacks and structured errors in ordinary dict/list records.
+CONC-02 selects indexed per-item outcomes without input retention and progress
+callbacks on the consuming thread, preserving existing bounded cleanup and
+fail-fast defaults. Process/interpreter execution and asyncio remain separately
+deferred. QA-02 selects newly authored MIT synthetic fixtures, an offline
+end-to-end pipeline and bounded diagnostic workloads with environment/time/peak
+memory reporting; it makes no speed claim and does not widen platform support.
+
 ## Purpose
 
 Builtouts builds out Python's batteries: reusable interfaces, adapters, and
