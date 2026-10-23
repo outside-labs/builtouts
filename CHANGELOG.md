@@ -6,6 +6,8 @@
   TLS, opt-in proxy/origin policies, owned responses and declared-charset decoding.
 - Scoped HTML fields with required/optional defaults, exact/many cardinality,
   explicit converters and structured errors in ordinary dict/list records.
+- Indexed thread outcomes and synchronous consumer-thread result callbacks,
+  preserving existing fail-fast defaults, queue bounds and worker cleanup.
 
 ## 0.1.0 — 2026-10-19
 

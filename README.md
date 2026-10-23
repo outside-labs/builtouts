@@ -244,6 +244,34 @@ pool. Use threads for overlapping I/O; CPU-bound Python parsing has no promised
 speedup. There are no implicit retries, rate limits, process pools or asyncio
 adapters. `concurrent.futures` is unavailable on WASI.
 
+For per-item errors in 0.2, use `thread_outcomes()` in a `with` block:
+
+```python
+from builtouts.concurrent import thread_outcomes
+
+with thread_outcomes(int, ['1', 'invalid', '3'], max_pending=2) as results:
+    rows = list(results)
+assert [row.index for row in rows] == [0, 1, 2]
+assert [row.ok for row in rows] == [True, False, True]
+assert rows[0].result() == 1
+```
+
+`Outcome` holds a zero-based original input index, value and original Exception.
+`ok` distinguishes successful None values from failures; `result()` returns the
+value or raises the original error. There is no separate input reference, but
+values and exceptions/tracebacks may themselves retain input data. Worker
+Exception instances are captured; interrupts, producer failures and callback
+failures still propagate and trigger the same cleanup. Cancelled or unconsumed
+work produces no outcome during context exit.
+
+All three thread helpers accept `on_result=callback` in 0.2. It runs synchronously
+on the consuming thread with an Outcome before that result is yielded or its
+worker error is raised. This reports consumed results, not background completion
+or timer ticks; ordered mode can delay callbacks behind a slow earlier item.
+Only requested results produce callbacks. Keep callbacks brief, and manage any
+retained history explicitly. The original thread_map/thread_iter fail-fast
+behavior remains the default.
+
 ## Naming conventions
 
 ```python
