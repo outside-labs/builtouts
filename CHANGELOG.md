@@ -4,6 +4,8 @@
 
 - Explicit HTTP(S) GET client with response byte and redirect bounds, verified
   TLS, opt-in proxy/origin policies, owned responses and declared-charset decoding.
+- Scoped HTML fields with required/optional defaults, exact/many cardinality,
+  explicit converters and structured errors in ordinary dict/list records.
 
 ## 0.1.0 — 2026-10-19
 
