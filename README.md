@@ -167,6 +167,48 @@ the parser. Callback failures propagate and invalidate it. Text callback chunk
 boundaries depend on input feeds/tokenization. Accumulated results, and text in
 currently open anchors, consume memory proportional to retained output.
 
+## Structured records (0.2)
+
+```python
+from dataclasses import dataclass
+from builtouts.html import Document, Field, extract_all
+
+@dataclass
+class Entry:
+    title: str
+    count: int
+
+doc = Document.from_html('<article data-count="2"><h2>Example</h2></article>')
+records = extract_all(doc, 'article', {
+    'title': Field('h2'),
+    'count': Field(attribute='data-count', convert=int),
+})
+entries = [Entry(**record) for record in records]
+```
+
+`extract(node, fields)` returns a dictionary; `extract_all(node, selector, fields)`
+returns a list of dictionaries in document order. A `Field` without a selector
+reads the receiver; a selector searches scoped descendants using the existing
+strict grammar. One match is required unless `many=True`, which returns a list.
+By default text is read, or `attribute='name'` reads a string attribute. Values
+are trimmed unless `strip=False`. There is no conversion without `convert`.
+
+`required=False` permits missing selections or missing/boolean attributes.
+Missing selections default to None for scalars and [] for many fields;
+missing attributes in a many field retain their position with a None value.
+An explicit `default` replaces that fallback, or `default_factory` runs for each
+fallback. Constants are returned by reference; use a factory for mutable values.
+Defaults cannot be combined or used on required fields. Empty strings are
+present values and still reach converters. Multiple scalar matches always fail.
+
+`ExtractionError` exposes `field`, `reason`, zero-based `record` for extract_all,
+and `item` for many-field attribute/conversion errors. Messages omit extracted
+values; converter/factory causes are preserved for explicit inspection.
+Ordinary conversion exceptions are wrapped; interrupts propagate. Configuration
+and selector syntax errors fail even on empty documents. Record lists grow with
+all results; iterate selected nodes and call extract for custom consumption.
+The API performs no HTTP, implicit model validation, or dependency integration.
+
 ## Bounded thread concurrency
 
 ```python

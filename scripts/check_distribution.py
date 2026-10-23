@@ -23,9 +23,10 @@ PACKAGE_FILES = {
     'builtouts/__init__.py', 'builtouts/py.typed', 'builtouts/concurrent.py',
     'builtouts/conventions.py', 'builtouts/http.py', 'builtouts/html/__init__.py', 'builtouts/html/nodes.py',
     'builtouts/html/parser.py', 'builtouts/html/selectors.py', 'builtouts/html/collectors.py',
+    'builtouts/html/extract.py',
 }
 TEST_FILES = {'test_concurrent.py', 'test_conventions.py', 'test_html_collectors.py',
-              'test_html_queries.py', 'test_html_tree.py', 'test_http.py'}
+              'test_html_queries.py', 'test_html_tree.py', 'test_http.py', 'test_html_extract.py'}
 EXAMPLE_FILES = {'html_extract.py', 'thread_jobs.py', 'naming.py'}
 SOURCE_FILES = ({'README.md', 'LICENSE', 'CHANGELOG.md', 'IMPLEMENTATION_PLAN.md',
                  'scripts/check_distribution.py'}
