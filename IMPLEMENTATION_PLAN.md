@@ -1,7 +1,9 @@
 # Builtouts implementation plan
 
-Status: v0.1.0 implementation complete. Publication and immutable verification
-receipts are tracked in [RELEASE-01 #20](https://github.com/outside-labs/builtouts/issues/20).
+Status: v0.1.0 is published and verified in
+[RELEASE-01 #20](https://github.com/outside-labs/builtouts/issues/20).
+The selected 0.2.0 continuation below is unreleased; it does not authorize
+another package upload or release tag.
 
 ## Selected post-0.1 batch
 
@@ -27,6 +29,20 @@ fail-fast defaults. Process/interpreter execution and asyncio remain separately
 deferred. QA-02 selects newly authored MIT synthetic fixtures, an offline
 end-to-end pipeline and bounded diagnostic workloads with environment/time/peak
 memory reporting; it makes no speed claim and does not widen platform support.
+
+| Selected task | Acceptance and verification |
+| --- | --- |
+| [HTTP-01 #6](https://github.com/outside-labs/builtouts/issues/6) | Buffered immutable GET responses, explicit byte/redirect/origin/proxy/charset/status contracts; loopback fixtures and verified TLS configuration |
+| [HTML-04 #8](https://github.com/outside-labs/builtouts/issues/8) | Scoped Field specs, default factories, scalar/many cardinality, explicit converters, structured errors and dataclass-friendly records |
+| [CONC-02 #10](https://github.com/outside-labs/builtouts/issues/10) | Indexed Outcome records, consumer-thread on_result callbacks, original fail-fast defaults, bounds and joined cleanup; separate executor/async gates |
+| [QA-02 #14](https://github.com/outside-labs/builtouts/issues/14) | New MIT synthetic corpus, offline GET/extract/thread pipeline, bounded environment/time/allocation diagnostics, exact archives and independent installed tests/examples |
+
+Diagnostics measure parse/select/extract after generating input, report traced
+Python allocations rather than RSS, and have no performance threshold. Source
+fixtures and diagnostic scripts use explicit distribution allowlists and are
+copied into the external install-verification sandbox. The supported CI profile
+remains Python 3.14 on Linux/macOS/Windows. Additional execution and portability
+work is tracked separately in CONC-03 #22, CONC-04 #23 and PORT-01 #24.
 
 ## Purpose
 
@@ -252,19 +268,15 @@ specific use case and a focused contract have been selected.
 
 | Task | Opportunity | Gate and completion criteria |
 | --- | --- | --- |
-| HTTP-01 | `builtouts.http` over urllib.request | Select redirect, proxy, TLS, response-size, deadline, error, decoding, and ownership contracts; loopback-only tests; HTTP(S) only; no silent retries or SSRF-safety claim |
 | HTML-03 | Mutation and serialization | Define parent ownership, detach/move/copy, cycle prevention, text/attribute escaping, raw-text behavior, and normalized versus lossless output; round-trip tests; never imply sanitization |
-| HTML-04 | Structured extraction | Explicit required/optional fields and selector/cardinality/conversion errors; dataclass-friendly adapters; optional enforce-type integration without a core dependency |
 | HTML-05 | Extended selectors | Add only requested grammar; reference fixtures, performance bounds, and explicit unsupported syntax; decide whether browser-grade querying belongs in an optional backend |
 | HTML-06 | Recovery profiles | Demand and corpus needed before implied end tags or HTML5 behavior; document intentional divergences rather than claim Beautiful Soup equivalence |
-| CONC-02 | Per-item outcomes and progress | Select error aggregation, indices/input retention, callback thread, cancellation ownership, and retry/idempotency policies |
 | CONC-03 | Processes and interpreter pools | Separate pickling/start-method/isolation contracts and CPU workload evidence; never switch execution strategy silently |
 | CONC-04 | Async helpers | Demonstrate a gap beyond asyncio.TaskGroup; define cancellation and bounded producer semantics without mixing Future types |
 | CONV-02 | Shared conventions | Concrete downstream consumers before field aliases, serialization policies, or project templates; explicit opt-in policies, no global defaults |
 | ITER-01 | Iterator conveniences | Real recurring use cases beyond itertools; define laziness, one-shot inputs, memory, and infinite-input behavior |
 | PATH-01 | Filesystem helpers | Specify symlink, overwrite, atomicity, encoding, permissions, and sandbox boundaries; no implicit destructive operations |
 | JSON-01 | JSON codecs | Select type/coercion/duplicate-key/non-finite/cycle contracts; preserve independent interoperability with validation packages |
-| QA-02 | Corpus and performance work | License-cleared offline fixtures; memory/throughput baselines and adversarial cases; benchmark environment recorded; no unsupported speed claims |
 | DOC-01 | Hosted documentation | Choose canonical host/URL and version policy before adding a docs service or dependencies |
 | PORT-01 | Wider Python/platform support | Evidence and CI for each extra version or free-threaded build; concurrency is unavailable on WASI; no browser runtime promise |
 | PACK-01 | Independent distribution extraction | Only split when usage, maintenance, or release cadence warrants it; avoid overlapping ordinary packages across distributions |

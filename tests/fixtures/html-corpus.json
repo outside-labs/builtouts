@@ -1,0 +1,14 @@
+{
+  "license": "MIT",
+  "provenance": "Newly authored synthetic fixtures for builtouts; no downloaded or archived site content.",
+  "cases": [
+    {"name": "title_entities", "html": "<title> A &amp; B </title><p>one<b>two</b>three</p>", "text": " A & B onetwothree", "title": "A & B", "selectors": {"p > b": ["two"]}, "links": []},
+    {"name": "void_and_self_closing", "html": "<p>A<br>B<img src=x>C<x/>D</p>tail", "text": "ABCDtail", "title": null, "selectors": {"p > br, p > img, p > x": ["", "", ""]}, "links": []},
+    {"name": "mismatched_optional_ends", "html": "</unknown><ul><li>a<li>b</ul>tail</li>", "text": "abtail", "title": null, "selectors": {"ul > li": ["ab"], "li li": ["b"]}, "links": []},
+    {"name": "raw_hidden_text", "html": "<p>visible</p><script>if(a < b){x='&amp;'}</script><style>.x{}</style>after", "text": "visibleafter", "title": null, "selectors": {"script": [""]}, "links": []},
+    {"name": "nontext_events", "html": "<!DOCTYPE html><?example value?><!--omit--><p>kept &copy; &#65;</p>", "text": "kept © A", "title": null, "selectors": {"p": ["kept © A"]}, "links": []},
+    {"name": "attributes_and_links", "html": "<div class='card active'><a href='/one'>A &amp; <b>B</b></a><a href=''>C</a></div>", "text": "A & BC", "title": null, "selectors": {".card.active > a[href]": ["A & B", "C"]}, "links": [["/one", "A & B"], ["", "C"]]},
+    {"name": "nested_anchor_recovery", "html": "<a href=outer>A<a href=inner>B</a>C", "text": "ABC", "title": null, "selectors": {"a > a": ["B"]}, "links": [["inner", "B"], ["outer", "ABC"]]},
+    {"name": "structured_unicode_records", "html": "<article data-id=1><h2>Café</h2></article><article data-id=2><h2>日本語</h2></article>", "text": "Café日本語", "title": null, "selectors": {"article > h2": ["Café", "日本語"]}, "links": [], "records": [{"id": 1, "title": "Café"}, {"id": 2, "title": "日本語"}]}
+  ]
+}

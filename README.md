@@ -8,8 +8,9 @@ independently usable and do not modify Python globals.
 
 | Module | Standard-library foundation | Added interface |
 | --- | --- | --- |
-| `builtouts.html` | `html.parser` | Bounded trees, queries, visible text, streaming links |
-| `builtouts.concurrent` | `concurrent.futures` | Bounded thread iteration and collection |
+| `builtouts.html` | `html.parser` | Bounded trees, queries, streaming links, structured records |
+| `builtouts.http` | `urllib.request`, `ssl` | Explicit bounded HTTP(S) GET retrieval (0.2) |
+| `builtouts.concurrent` | `concurrent.futures` | Bounded threads, outcomes and progress |
 | `builtouts.conventions` | `str`, `unicodedata` | Explicit Unicode naming transformations |
 
 Install builtouts:
@@ -297,7 +298,7 @@ ensure uniqueness or make filenames/URLs safe. Different spellings can collide.
 ```sh
 uv sync --locked
 uv run --frozen python -W error::ResourceWarning -m unittest discover -s tests -v
-uv run --frozen python scripts/check_distribution.py --output-dir dist
+uv run --frozen python scripts/check_distribution.py --output-dir dist/0.2.0
 ```
 
 CI checks Python 3.14 on Linux, macOS and Windows, then builds and verifies exact
@@ -308,6 +309,25 @@ in `pyproject.toml`; installed builtouts requires no third-party packages.
 Rebuilds require identical package, license and METADATA bytes and compatibility
 headers; only the build-tool Generator header may vary, with both RECORDs
 independently verified.
+
+The MIT synthetic corpus in `tests/fixtures/html-corpus.json` contains no
+downloaded or archived website content. Tests compare whole/chunked trees,
+selectors, text/link collectors and structured records, and reject adversarial
+inputs at configured limits. `examples/scrape_pipeline.py` starts only a loopback
+server and connects HTTP, field extraction, thread outcomes and result callbacks.
+
+For bounded local diagnostic samples:
+
+```sh
+uv run --frozen python scripts/profile_extraction.py --records 1000 --iterations 3
+```
+
+The JSON report records interpreter/platform/version and each sample's elapsed
+time and peak traced Python allocations. The measured stage is parsing, selection
+and field extraction; input generation/imports and process RSS are excluded.
+Records are limited to 1–10,000 and iterations to 1–20. Results are diagnostic
+data, with no throughput/memory threshold or comparative performance claim.
+Wider Python versions, free-threaded builds and real-site corpora remain gated.
 
 The [implementation plan](IMPLEMENTATION_PLAN.md) describes future HTTP,
 serialization/mutation, extraction models, additional executors and other

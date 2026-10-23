@@ -27,13 +27,17 @@ PACKAGE_FILES = {
 }
 TEST_FILES = {'test_concurrent.py', 'test_conventions.py', 'test_html_collectors.py',
               'test_html_queries.py', 'test_html_tree.py', 'test_http.py', 'test_html_extract.py',
-              'test_thread_outcomes.py'}
-EXAMPLE_FILES = {'html_extract.py', 'thread_jobs.py', 'naming.py'}
+              'test_thread_outcomes.py', 'test_corpus.py'}
+TEST_DATA_FILES = {'fixtures/html-corpus.json'}
+EXAMPLE_FILES = {'html_extract.py', 'thread_jobs.py', 'naming.py', 'scrape_pipeline.py'}
+DIAGNOSTIC_FILES = {'profile_extraction.py'}
 SOURCE_FILES = ({'README.md', 'LICENSE', 'CHANGELOG.md', 'IMPLEMENTATION_PLAN.md',
                  'scripts/check_distribution.py'}
                 | {f'src/{name}' for name in PACKAGE_FILES}
                 | {f'tests/{name}' for name in TEST_FILES}
-                | {f'examples/{name}' for name in EXAMPLE_FILES})
+                | {f'tests/{name}' for name in TEST_DATA_FILES}
+                | {f'examples/{name}' for name in EXAMPLE_FILES}
+                | {f'scripts/{name}' for name in DIAGNOSTIC_FILES})
 
 
 def require(condition: bool, message: str) -> None:
@@ -85,7 +89,9 @@ def verify_metadata(data: bytes, readme: bytes, version: str) -> None:
     require(not metadata.get_all('Requires-Dist'), 'runtime dependencies must be empty')
     require(metadata.get_all('License-File') == ['LICENSE'], 'incorrect license metadata')
     require('Typing :: Typed' in metadata.get_all('Classifier', []), 'missing typing classifier')
-    require(metadata.get_payload().strip() == readme.decode().strip(), 'README metadata differs')
+    payload = metadata.get_payload(decode=True)
+    require(payload is not None, 'README metadata payload is missing')
+    require(payload.decode('utf-8').strip() == readme.decode('utf-8').strip(), 'README metadata differs')
 
 
 def verify_record(files: dict[str, bytes], dist_info: str) -> None:
@@ -129,8 +135,16 @@ def verify_install(artifact: Path, sandbox: Path, root: Path, version: str) -> N
     examples.mkdir()
     for name in TEST_FILES:
         shutil.copyfile(root / 'tests' / name, tests / name)
+    for name in TEST_DATA_FILES:
+        target = tests / name
+        target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(root / 'tests' / name, target)
     for name in EXAMPLE_FILES:
         shutil.copyfile(root / 'examples' / name, examples / name)
+    scripts = sandbox / 'scripts'
+    scripts.mkdir()
+    for name in DIAGNOSTIC_FILES | {'check_distribution.py'}:
+        shutil.copyfile(root / 'scripts' / name, scripts / name)
     run([str(python), '-I', '-W', 'error::ResourceWarning', '-m', 'unittest',
          'discover', '-s', str(tests), '-v'], cwd=sandbox)
     for name in sorted(EXAMPLE_FILES):
