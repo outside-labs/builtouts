@@ -331,8 +331,8 @@ Wider Python versions, free-threaded builds and real-site corpora remain gated.
 
 The [implementation plan](IMPLEMENTATION_PLAN.md) describes future HTTP,
 serialization/mutation, extraction models, additional executors and other
-modules. [GitHub issues](https://github.com/outside-labs/builtouts/issues) and
-the [Project](https://github.com/orgs/outside-labs/projects/17) hold the queue.
+modules. [GitHub issues](https://github.com/wispsy/builtouts/issues) and
+the [Project](https://github.com/orgs/wispsy/projects/17) hold the queue.
 
 `release.yaml` uses PyPI Trusted Publishing through environment
 `pypi`; only an authorized `v0.1.0` tag on main can publish. Before tagging,

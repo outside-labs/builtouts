@@ -21,9 +21,9 @@ classifiers = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/outside-labs/builtouts"
-Repository = "https://github.com/outside-labs/builtouts"
-Issues = "https://github.com/outside-labs/builtouts/issues"
+Homepage = "https://github.com/wispsy/builtouts"
+Repository = "https://github.com/wispsy/builtouts"
+Issues = "https://github.com/wispsy/builtouts/issues"
 
 [build-system]
 requires = ["uv_build>=0.12.19,<0.13.0"]
