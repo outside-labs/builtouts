@@ -1,7 +1,7 @@
 # Builtouts implementation plan
 
 Status: v0.1.0 is published and verified in
-[RELEASE-01 #20](https://github.com/outside-labs/builtouts/issues/20).
+[RELEASE-01 #20](https://github.com/wispsy/builtouts/issues/20).
 The selected 0.2.0 continuation below is unreleased; it does not authorize
 another package upload or release tag.
 
@@ -32,10 +32,10 @@ memory reporting; it makes no speed claim and does not widen platform support.
 
 | Selected task | Acceptance and verification |
 | --- | --- |
-| [HTTP-01 #6](https://github.com/outside-labs/builtouts/issues/6) | Buffered immutable GET responses, explicit byte/redirect/origin/proxy/charset/status contracts; loopback fixtures and verified TLS configuration |
-| [HTML-04 #8](https://github.com/outside-labs/builtouts/issues/8) | Scoped Field specs, default factories, scalar/many cardinality, explicit converters, structured errors and dataclass-friendly records |
-| [CONC-02 #10](https://github.com/outside-labs/builtouts/issues/10) | Indexed Outcome records, consumer-thread on_result callbacks, original fail-fast defaults, bounds and joined cleanup; separate executor/async gates |
-| [QA-02 #14](https://github.com/outside-labs/builtouts/issues/14) | New MIT synthetic corpus, offline GET/extract/thread pipeline, bounded environment/time/allocation diagnostics, exact archives and independent installed tests/examples |
+| [HTTP-01 #6](https://github.com/wispsy/builtouts/issues/6) | Buffered immutable GET responses, explicit byte/redirect/origin/proxy/charset/status contracts; loopback fixtures and verified TLS configuration |
+| [HTML-04 #8](https://github.com/wispsy/builtouts/issues/8) | Scoped Field specs, default factories, scalar/many cardinality, explicit converters, structured errors and dataclass-friendly records |
+| [CONC-02 #10](https://github.com/wispsy/builtouts/issues/10) | Indexed Outcome records, consumer-thread on_result callbacks, original fail-fast defaults, bounds and joined cleanup; separate executor/async gates |
+| [QA-02 #14](https://github.com/wispsy/builtouts/issues/14) | New MIT synthetic corpus, offline GET/extract/thread pipeline, bounded environment/time/allocation diagnostics, exact archives and independent installed tests/examples |
 
 Diagnostics measure parse/select/extract after generating input, report traced
 Python allocations rather than RSS, and have no performance threshold. Source
@@ -52,7 +52,7 @@ belongs here when it removes recurring application boilerplate, has a clear
 contract, works independently, and does not silently change Python's behavior.
 
 The source concept is `builtouts GIST01.md`. The package and distribution name
-are `builtouts`; the repository is `outside-labs/builtouts`. Earlier names in the
+are `builtouts`; the repository is `wispsy/builtouts`. Earlier names in the
 gist are exploratory and are not compatibility commitments.
 
 ## Decisions for v0.1.0
@@ -216,8 +216,8 @@ Document collisions and empty-input behavior. Keep the module free of I/O.
 ## Delivery queue
 
 Create GitHub issues and a linked organization Project before implementation.
-The repository is [outside-labs/builtouts](https://github.com/outside-labs/builtouts)
-and the delivery board is [Project 17](https://github.com/orgs/outside-labs/projects/17).
+The repository is [wispsy/builtouts](https://github.com/wispsy/builtouts)
+and the delivery board is [Project 17](https://github.com/orgs/wispsy/projects/17).
 The issues/Project are the canonical status and dependency queue; this plan
 records architecture and milestone gates. Implement the selected five tasks as
 focused PRs, building dependent work on the preceding local branch. Start CI
@@ -228,11 +228,11 @@ fresh checks after retargeting, and verify final main before cleanup.
 
 | Task | Scope and acceptance | Dependencies |
 | --- | --- | --- |
-| [HTML-01 #1](https://github.com/outside-labs/builtouts/issues/1) | Read-only tree, traversal, find/text, bounded incremental parser, malformed markup fixtures, minimal three-platform CI | Bootstrap |
-| [HTML-02 #2](https://github.com/outside-labs/builtouts/issues/2) | Strict selector subset, link/text collectors, callback mode, chunked and limit tests | HTML-01 |
-| [CONC-01 #3](https://github.com/outside-labs/builtouts/issues/3) | Bounded thread map/iteration, ordered/ready results, exception and shutdown tests | HTML-01 foundation |
-| [CONV-01 #4](https://github.com/outside-labs/builtouts/issues/4) | Unicode-aware word splitting and deterministic naming transformations, documented edge cases | HTML-01 foundation |
-| [REL-01 #5](https://github.com/outside-labs/builtouts/issues/5) | Complete docs/examples, metadata/typing/license, artifact and installed-package checks, release workflow and release checklist | All selected features |
+| [HTML-01 #1](https://github.com/wispsy/builtouts/issues/1) | Read-only tree, traversal, find/text, bounded incremental parser, malformed markup fixtures, minimal three-platform CI | Bootstrap |
+| [HTML-02 #2](https://github.com/wispsy/builtouts/issues/2) | Strict selector subset, link/text collectors, callback mode, chunked and limit tests | HTML-01 |
+| [CONC-01 #3](https://github.com/wispsy/builtouts/issues/3) | Bounded thread map/iteration, ordered/ready results, exception and shutdown tests | HTML-01 foundation |
+| [CONV-01 #4](https://github.com/wispsy/builtouts/issues/4) | Unicode-aware word splitting and deterministic naming transformations, documented edge cases | HTML-01 foundation |
+| [REL-01 #5](https://github.com/wispsy/builtouts/issues/5) | Complete docs/examples, metadata/typing/license, artifact and installed-package checks, release workflow and release checklist | All selected features |
 
 ### Verification and release gate
 
@@ -251,7 +251,7 @@ fresh checks after retargeting, and verify final main before cleanup.
    OIDC permission; it consumes the distributions verified by the check jobs.
 6. A release tag must match the package version, be the selected `v0.1.0`, and
    point at a commit on main. Ordinary PR/main CI never publishes. The publisher
-   must match owner `outside-labs`, repository `builtouts`, workflow
+   must match owner `wispsy`, repository `builtouts`, workflow
    `release.yaml`, environment `pypi`, and PyPI project `builtouts`.
 7. Before publication, confirm final-main CI, inspect final artifacts, and record
    the selected source and workflow run in REL-01. Publication requires explicit
